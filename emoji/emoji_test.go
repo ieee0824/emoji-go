@@ -81,3 +81,4 @@ func TestHexColor_RGBA(t *testing.T) {
 		}
 	}
 }
+

@@ -15,13 +15,6 @@ const (
 	API = "https://emoji.pine.moe/emoji"
 )
 
-type Emoji struct {
-	Body *string `json:"body"`
-	Color *color.RGBA `json:"color"`
-	BackColor *color.RGBA `json"back_color"`
-	client *http.Client
-}
-
 func colorToHex(c color.RGBA) *hexColor {
 	s := fmt.Sprintf("%02X%02X%02X%02X", c.R, c.G, c.B, c.A)
 	h := hexColor(s)
@@ -74,12 +67,21 @@ func (h hexColor) RGBA() (*color.RGBA, error) {
 	return &color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}, nil
 }
 
+type Emoji struct {
+	Body *string `json:"body"`
+	Color *color.RGBA `json:"color"`
+	BackColor *color.RGBA `json"back_color"`
+	api string
+	client *http.Client
+}
+
 func New(s ...string) *Emoji {
 	if len(s) == 0 {
 		return &Emoji{
 			nil,
 			&color.RGBA{0x00, 0x00, 0x00, 0xff},
 			&color.RGBA{0xff, 0xff, 0xff, 0x00},
+			API,
 			&http.Client{},
 		}
 	}
@@ -87,6 +89,7 @@ func New(s ...string) *Emoji {
 		&s[0],
 		&color.RGBA{0x00, 0x00, 0x00, 0xff},
 		&color.RGBA{0xff, 0xff, 0xff, 0x00},
+		API,
 		&http.Client{},
 	}
 }
@@ -138,7 +141,7 @@ func (e *Emoji) SetBackColor(c color.RGBA) *Emoji {
 }
 
 func (e *Emoji) Generate() (image.Image, error) {
-	req, err := http.NewRequest("GET", API, nil)
+	req, err := http.NewRequest("GET", e.api, nil)
 	if err != nil {
 		return nil, err
 	}

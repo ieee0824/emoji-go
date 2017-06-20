@@ -28,43 +28,19 @@ func (h hexColor) String() string {
 }
 
 func (h hexColor) RGBA() (*color.RGBA, error) {
-	s := string(h)
-	if len([]rune(s)) != 8 {
+	if len(h.String()) != 8 {
 		return nil, errors.New("Incorrect format")
 	}
-
-	rString := s[:2]
-
-	s = s[2:]
-	gString := s[:2]
-
-	s = s[2:]
-	bString := s[:2]
-
-	s = s[2:]
-	aString := s[:2]
-
-	r, err := strconv.ParseInt(rString, 16, 16)
+	intColor, err := strconv.ParseUint(h.String(), 16, 32)
 	if err != nil {
 		return nil, err
 	}
+	r := uint8((intColor&0xff000000) >> 24)
+	g := uint8((intColor&0x00ff0000) >> 16)
+	b := uint8((intColor&0x0000ff00) >> 8)
+	a := uint8((intColor&0x000000ff) >> 0)
 
-	g, err := strconv.ParseInt(gString, 16, 16)
-	if err != nil {
-		return nil, err
-	}
-
-	b, err := strconv.ParseInt(bString, 16, 16)
-	if err != nil {
-		return nil, err
-	}
-
-	a, err := strconv.ParseInt(aString, 16, 16)
-	if err != nil {
-		return nil, err
-	}
-
-	return &color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}, nil
+	return &color.RGBA{r, g, b, a}, nil
 }
 
 type Emoji struct {

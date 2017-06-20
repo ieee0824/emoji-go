@@ -9,4 +9,4 @@ jobs:
             - run:
                 name: run test
                 command: |
-                    go run $(glide nv)
+                    go test $(glide nv)

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ieee0824/emoji-go"
 	"fmt"
+	"github.com/ieee0824/emoji-go/emoji"
 )
 
 func main(){

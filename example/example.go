@@ -2,11 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/ieee0824/emoji-go/emoji"
+	"github.com/ieee0824/emoji-go/fonts"
 )
 
 func main(){
-	e := emoji.New("hoge")
-
-	fmt.Println(e.Generate())
+	fmt.Println(fonts.New().Get())
 }

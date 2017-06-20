@@ -1,0 +1,12 @@
+version: 2
+jobs:
+    build:
+        docker:
+            - image: ieee0824/go-circleci-docker:latest
+        working_directory: /go/src/github.com/ieee0824/emoji-go
+        steps:
+            - checkout
+            - run:
+                name: run test
+                command: |
+                    go run test $(glide nv)

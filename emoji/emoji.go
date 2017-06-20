@@ -3,12 +3,12 @@ package emoji
 import (
 	"image/color"
 	"net/http"
-	"github.com/pkg/errors"
 	"strconv"
 	"fmt"
 	"encoding/json"
 	"image"
 	"image/png"
+	"errors"
 )
 
 const (
